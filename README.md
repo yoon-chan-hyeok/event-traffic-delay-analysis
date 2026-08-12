@@ -1,8 +1,8 @@
-![Major-Event Traffic Delay — project hero](assets/project-hero.svg)
+![Major-Event Traffic Delay project hero](assets/project-hero.svg)
 
 <div align="center">
 
-**여의도 불꽃축제의 이동·체류·버스·공간 데이터를 운영 가능한 셔틀 시나리오로 연결한 졸업 연구**
+**OD·생활인구·버스·GIS 데이터를 결합해 행사 종료 후 수요 집중을 분석하고, hub·capacity·cost constraint를 포함한 shuttle operating scenario로 번역한 transportation decision case study**
 
 ![Analysis](https://img.shields.io/badge/Analysis-Python%20%2B%20GIS-3776AB)
 ![Data](https://img.shields.io/badge/Data-OD%20%2B%20Bus%20%2B%20Population-0F766E)
@@ -30,15 +30,15 @@
 
 > 관측자료 기반 시나리오 분석이며, 셔틀의 인과적 개선효과를 실증한 결과는 아닙니다.
 
-## 30초 요약
+## 프로젝트 개요
 
-| 질문 | 답 |
+| 구분 | 내용 |
 |---|---|
-| **문제** | 행사 종료 시 집중되는 1.3만 명 규모 추가 수요를 어디로 분산할까? |
-| **데이터** | OD 이동량 · 생활/체류인구 · 버스 운행 · GIS · 운영 조건 |
-| **분석** | 행사일 변화, 변수 관계, 공간 병목, 수요·지연 scenario |
-| **결정** | 3개 환승거점과 13,500명 수송 용량의 shuttle concept |
-| **경계** | 상관·개략 simulation 결과를 인과효과나 현장 확정안으로 과장하지 않음 |
+| **Question** | 행사 종료 직후 여의도에 집중되는 추가 수요를 어느 방향과 시간대로 분산할 것인가? |
+| **Evidence** | OD 이동량, 생활·체류인구, 버스 운행, GIS network와 행사 운영 조건 |
+| **Analysis** | 행사일 전후 비교, 시공간 join, 변수 관계, demand/delay scenario, hub screening |
+| **Decision model** | 3개 환승 거점과 좌석·차량·회전수 기반 capacity, order-of-magnitude cost를 연결 |
+| **Boundary** | 관측 상관과 개략 simulation을 인과효과나 확정 운영안으로 해석하지 않음 |
 
 ## Research question
 
@@ -107,7 +107,7 @@ flowchart LR
 
 약 5천만원은 차량 규모를 설명하기 위한 개략 운영비입니다. 조달 방식, 기사·통제 인력, 승하차 공간, 회송 거리와 현장 제약에 따라 달라집니다.
 
-## What this project demonstrates
+## 분석 범위
 
 - 교통공학 문제를 측정 가능한 데이터 질문으로 변환
 - 서로 다른 공간·시간 단위의 다중 데이터 결합
@@ -127,8 +127,9 @@ flowchart LR
 
 원천 OD·생활인구·교통 자료의 이용 조건과 크기 때문에 raw data를 재배포하지 않습니다. 이 공개 저장소는 문제 정의, 분석 구조, 확인된 집계 수치, 운영 시나리오와 학습 로드맵을 중심으로 구성한 decision case study입니다.
 
-## Ownership
+## 기여 범위
 
 교통공학 관점의 연구 질문, 데이터 선택, 비교 기준, EDA, scenario assumption, 환승거점·수송규모·비용 산정과 결과 해석을 수행했습니다.
 
 [재현 가능한 데이터·준실험·dashboard 확장 로드맵](docs/LEARNING_ROADMAP.md)
+
