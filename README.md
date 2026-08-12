@@ -21,10 +21,10 @@
 
 <table>
 <tr>
-<td width="25%" align="center"><h3>13,500명</h3><sub>45 seats × 100 buses<br/>× 3 rotations</sub></td>
-<td width="25%" align="center"><h3>3 Hubs</h3><sub>공덕 · 당산<br/>노량진</sub></td>
-<td width="25%" align="center"><h3>0.80–1.93분</h3><sub>Scenario<br/>Average Delay</sub></td>
-<td width="25%" align="center"><h3>약 5천만원</h3><sub>Indicative<br/>Operating Cost</sub></td>
+<td width="25%" align="center"><h3>혼잡 분산</h3><sub>한곳에 몰린 귀가 수요를<br/>여러 방향으로 분산</sub></td>
+<td width="25%" align="center"><h3>3개 거점</h3><sub>공덕 · 당산<br/>노량진 연결</sub></td>
+<td width="25%" align="center"><h3>반복 운행</h3><sub>한 번이 아닌<br/>회차별 수송 계획</sub></td>
+<td width="25%" align="center"><h3>비용까지 계산</h3><sub>분석을 실제<br/>운영안으로 연결</sub></td>
 </tr>
 </table>
 
