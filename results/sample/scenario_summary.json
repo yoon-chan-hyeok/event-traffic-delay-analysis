@@ -1,0 +1,11 @@
+{
+  "seats_per_bus": 45,
+  "buses": 100,
+  "rotations": 3,
+  "load_factor": 1.0,
+  "passenger_movements": 13500,
+  "demand": 13000,
+  "capacity_minus_demand": 500,
+  "coverage_ratio": 1.0384615384615385,
+  "fleet_cost": 50000000
+}
