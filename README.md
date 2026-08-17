@@ -7,13 +7,15 @@
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
 ![Analysis](https://img.shields.io/badge/Analysis-OD%20%2B%20Transit%20Supply-0F766E)
 ![Model](https://img.shields.io/badge/Model-Isotonic%20Regression-D97706)
-![Tests](https://img.shields.io/badge/Tests-pytest-7C3AED)
+![Tests](https://github.com/yoon-chan-hyeok/event-traffic-delay-analysis/actions/workflows/ci.yml/badge.svg)
 
 교내 데이터 분석 프로젝트 우수상
 
 [분석 결과](#분석-결과) · [분석 흐름](#분석-흐름) · [실행](#실행) · [검증 범위](#검증-범위)
 
 </div>
+
+> **최신 실제 데이터 재분석:** [Yeouido Festival Mobility Analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis)에서 동일 토요일 비교, join audit과 공개 집계 재현 결과를 확인할 수 있습니다. 이 저장소는 초기 notebook의 오류를 기록하고 synthetic pipeline으로 분석 구조를 보존한 이전 단계입니다.
 
 ## 출발점
 
