@@ -2,92 +2,71 @@
 
 <div align="center">
 
-# Event Traffic Delay Analysis: Archived Prototype
+# Event Traffic Delay Analysis
 
-**대형 행사 뒤 이동 지연을 수요와 대중교통 공급 proxy로 나눠 보고, 데이터 결합과 비교 설계의 한계까지 점검했습니다.**
+**Archived prototype · 여의도 불꽃축제 교통 분석의 초기 설계와 수정 기록**
 
-![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
-![Analysis](https://img.shields.io/badge/Analysis-OD%20%2B%20Transit%20Supply-0F766E)
-![Model](https://img.shields.io/badge/Model-Isotonic%20Regression-D97706)
-![Tests](https://github.com/yoon-chan-hyeok/event-traffic-delay-analysis/actions/workflows/ci.yml/badge.svg)
-
-교내 데이터 분석 프로젝트 우수상
-
-[분석 결과](#분석-결과) · [분석 흐름](#분석-흐름) · [실행](#실행) · [검증 범위](#검증-범위)
+[최종 실제 데이터 분석](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis) · [Notebook audit](docs/NOTEBOOK_AUDIT.md) · [실행 방법](#실행)
 
 </div>
 
-> **이 저장소는 졸업작품의 이전 단계입니다.** 별도 포트폴리오 프로젝트가 아니라, 초기 notebook의 오류와 synthetic pipeline을 보존한 archive입니다. 최종 분석 결과와 실제 데이터 재분석은 [Yeouido Festival Mobility Analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis)에서 확인할 수 있습니다.
+> 이 저장소는 별도의 포트폴리오 프로젝트가 아닙니다. 초기 notebook의 비교군 오류를 어떻게 발견했고 분석을 어떻게 다시 설계했는지, 그리고 열 구조를 재현한 synthetic pipeline을 보존한 archive입니다. 현재 결과와 수치는 [Yeouido Festival Mobility Analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis)를 기준으로 봐주세요.
 
-## 출발점
+## 이 저장소가 남아 있는 이유
 
-여의도 불꽃축제가 끝난 뒤 평소보다 귀가 시간이 오래 걸린 경험에서 시작했습니다. "사람이 많이 와서 혼잡했다"는 설명만으로는 언제, 어느 방향에 교통 수단을 더 투입해야 하는지 알 수 없습니다.
+여의도 불꽃축제 뒤 길어진 귀가 시간을 수요 증가만으로 설명할 수 있는지 확인하려고 시작했습니다. SKT OD와 체류인구, 버스·지하철 이용 자료, TPSS 정차횟수와 공간정보를 결합했지만, 첫 notebook에는 행사일과 비교일의 요일이 맞지 않는 문제가 있었습니다.
 
-SKT OD와 체류인구, 버스와 지하철 승하차, TPSS 정차횟수, 정류장과 노선 공간정보를 결합해 행사일의 수요와 대중교통 공급 상태를 함께 살펴봤습니다.
+잘못된 결과를 그대로 다듬기보다 오류와 수정 과정을 남겼습니다. 이 저장소는 초기 가설과 코드 구조를, 최종 저장소는 같은 요일의 실제 데이터를 다시 계산한 결과를 보여줍니다.
 
-## 분석 흐름
+| 구분 | 이 저장소 | 최종 저장소 |
+|---|---|---|
+| 역할 | 초기 notebook audit와 synthetic 실행 예제 | 실제 데이터 재분석과 공개 결과 |
+| 비교 설계 | 토요일 행사일과 일요일 참고일이 섞인 문제 확인 | 행사일과 같은 토요일 비교군 사용 |
+| 공개 수치 | 포트폴리오 성과로 사용하지 않음 | 검증된 기술통계와 조건을 함께 공개 |
+| 모델 | Isotonic Regression의 설계 예제 | 일반화 근거가 부족해 예측 점수 미공개 |
 
-~~~mermaid
-flowchart LR
-    A["OD, population,<br/>transit data"] --> B["ID and spatial<br/>matching audit"]
-    B --> C["Event vs reference<br/>time profiles"]
-    C --> D["Demand and supply<br/>proxy comparison"]
-    D --> E["Monotonic<br/>delay model"]
-    E --> F["Hub shuttle<br/>scenario"]
-~~~
+## 분석을 다시 설계한 지점
 
-### 1. 데이터 결합부터 다시 확인
+### 비교 날짜
 
-초기 정류장 ID matching coverage는 약 26.7%였습니다. 이 상태에서는 정류장 단위 결과를 믿기 어려워 bbox, 정류장명, route master, TPSS와 GIS encoding을 다시 확인했습니다.
+행사일은 2023년 10월 7일 토요일이지만 초기 참고일 6개는 일요일이었습니다. 요일 효과가 섞인 기존 차이는 행사 효과로 해석하지 않습니다. 최종 분석에서는 자료별로 실제 토요일 비교군을 다시 구성했습니다.
 
-### 2. 수요만 보던 문제를 바꿈
+### 수요와 운행 상태
 
-처음에는 행사 혼잡을 수요 증가로만 설명하려 했습니다. 분석에서는 승객이 늘어난 동시에 차량이 정류장에 관측된 횟수가 줄어드는 방향이 나타났습니다. 실제 공급량을 직접 확보하지 못했기 때문에 TPSS 정차횟수를 공급 상태의 proxy로 사용했습니다.
+혼잡을 방문객 증가만으로 설명하지 않기 위해 TPSS 정차횟수를 함께 봤습니다. 다만 이 값은 버스 대수나 좌석 공급량이 아니라 정류장에 기록된 운행횟수 지표입니다. 도로통제, 우회, 무정차나 결행 중 무엇이 변화를 만들었는지도 이 자료만으로는 구분할 수 없습니다.
 
-### 3. 단조 제약을 적용
+### 단조 제약 모델
 
-선형 회귀는 초과 교통량과 지체의 관계를 하나의 기울기로 표현합니다. 데이터에서는 증가 폭이 일정하지 않았고, 교통량이 늘었는데 예측 지체가 줄어드는 구간도 생겼습니다. 증가 폭은 데이터에 맡기되 지체가 감소하지 않도록 Isotonic Regression을 적용했습니다.
+초과 교통량이 늘어날 때 예측 지체가 감소하지 않도록 Isotonic Regression을 적용했습니다. 증가 폭을 하나의 기울기로 고정하지 않으면서 교통 지체의 방향성은 지키려는 선택이었습니다. 하지만 기존 결과는 비교 날짜와 검증 설계에 문제가 있어 예측 성능의 근거로 사용하지 않습니다.
 
-## 현재 결론
+### 환승거점 셔틀
 
-원 분석에서는 행사 시간대에 수요가 늘고 TPSS 정차횟수 proxy가 줄어드는 방향이 함께 나타났습니다. 다만 행사일은 토요일이고 참고일 6개는 일요일이어서, 당시 계산한 차이를 행사 효과나 대표 결과로 사용하지 않습니다. 같은 요일과 기간을 맞춘 재분석이 필요합니다.
-
-현재 남길 수 있는 결론은 두 가지입니다. 첫째, 수요 자료만으로 혼잡을 설명하지 않고 공급 상태를 나타내는 proxy를 함께 봐야 합니다. 둘째, 여러 교통 데이터를 결합할 때는 모델링보다 ID, 공간 범위와 날짜 비교 조건의 검증이 먼저입니다.
-
-원 분석은 모든 목적지로 직접 운행하는 노선 대신 공덕, 당산, 노량진 환승거점까지 연결하는 셔틀 아이디어로 이어졌습니다. 공개본의 수송량 계산은 대안의 규모를 비교하는 산술 시나리오이며 최적 배차나 비용 효과를 검증한 결과가 아닙니다.
+공덕·당산·노량진까지 단거리 셔틀을 연결하는 아이디어와 수송 규모 계산도 남아 있습니다. 이는 대안의 구조를 살펴본 산술 시나리오이며, 최적 입지·배차·비용 효과를 검증한 정책 결과가 아닙니다.
 
 ## 실행
 
-~~~bash
+```bash
 python -m pip install -e ".[dev]"
 pytest
 python scripts/run_sample_analysis.py
-~~~
+```
 
-원본 데이터와 전체 분석 코드는 이용 조건과 정리 상태 때문에 포함하지 않았습니다. 공개 코드는 같은 열 구조를 가진 synthetic sample로 전처리, 비교, 날짜 단위 검증과 시나리오 계산의 실행 경로를 보여줍니다.
+공개 코드는 실제 관측값이 아니라 같은 열 구조를 가진 synthetic sample을 사용합니다. 아래 그림도 실행 경로를 확인하기 위한 예제입니다.
 
 | 행사일과 참고일 profile | 단조 제약 모델 |
 |---|---|
 | ![Synthetic event and reference profiles](results/sample/event_vs_baseline.png) | ![Synthetic isotonic delay example](results/sample/demand_delay_curve.png) |
 
-위 그림은 코드 경로를 보여주는 synthetic example이며 실제 축제 결과나 모델 성능이 아닙니다.
-
 ## 저장소 구성
 
-~~~text
-data/sample/             synthetic input
-notebooks/               public EDA and model validation
-src/event_traffic/       preprocessing, modeling, scenario
-scripts/                 sample pipeline entry point
-results/sample/          generated tables and figures
-tests/                   preprocessing and model tests
-~~~
+```text
+data/sample/             synthetic input과 데이터 안내
+notebooks/               공개 EDA와 모델 검증 예제
+src/event_traffic/       전처리, 모델링과 시나리오 코드
+scripts/                 sample pipeline 실행 파일
+results/sample/          synthetic 결과 표와 그림
+tests/                   전처리와 모델 단위 테스트
+docs/NOTEBOOK_AUDIT.md   원 notebook 오류와 해석 범위
+```
 
-## 검증 범위
-
-- 행사일은 2023년 10월 7일 토요일이고 참고일 6개는 일요일입니다. 원 노트북의 "평상시 토요일" 표기를 수정했으며, 기존 수치에는 요일 차이가 섞여 있어 대표 결과로 제시하지 않습니다.
-- 행사일 한 번의 관측만으로 일반적인 행사 효과를 추정할 수 없습니다.
-- Isotonic Regression은 단조 관계를 표현하지만 인과 효과를 추정하지 않습니다.
-- 셔틀 계산은 수송 규모를 비교한 시나리오입니다. 배차, 도로 운영과 비용 효과를 검증한 simulation은 아닙니다.
-
-[Notebook audit](docs/NOTEBOOK_AUDIT.md) · [Data guide](data/README.md) · [Follow-up plan](docs/LEARNING_ROADMAP.md)
+최종 실제 데이터 분석에서는 같은 요일 비교, OD 통행량 가중평균, 공간 결합률, 30분 구간 파싱과 공개 수치 재현을 다시 검증했습니다.
