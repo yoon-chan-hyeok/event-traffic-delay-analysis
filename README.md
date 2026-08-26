@@ -2,6 +2,8 @@
 
 <div align="center">
 
+# Event Traffic Delay Analysis: Archived Prototype
+
 **대형 행사 뒤 이동 지연을 수요와 대중교통 공급 proxy로 나눠 보고, 데이터 결합과 비교 설계의 한계까지 점검했습니다.**
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB)
@@ -15,7 +17,7 @@
 
 </div>
 
-> **최신 실제 데이터 재분석:** [Yeouido Festival Mobility Analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis)에서 동일 토요일 비교, join audit과 공개 집계 재현 결과를 확인할 수 있습니다. 이 저장소는 초기 notebook의 오류를 기록하고 synthetic pipeline으로 분석 구조를 보존한 이전 단계입니다.
+> **이 저장소는 졸업작품의 이전 단계입니다.** 별도 포트폴리오 프로젝트가 아니라, 초기 notebook의 오류와 synthetic pipeline을 보존한 archive입니다. 최종 분석 결과와 실제 데이터 재분석은 [Yeouido Festival Mobility Analysis](https://github.com/yoon-chan-hyeok/yeouido-festival-mobility-analysis)에서 확인할 수 있습니다.
 
 ## 출발점
 
